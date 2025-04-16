@@ -11,3 +11,12 @@ form{
 .error{
     color: red;
 }
+.nomessage{
+    color: darkslategray;
+}
+.messages{
+    color: #0f2027;
+}
+.thanks{
+    color: darkgreen;
+}
