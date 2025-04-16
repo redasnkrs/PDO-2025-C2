@@ -11,9 +11,15 @@
 <body>
 <h1>Exercice</h1>
 <h2>Laissez-nous un message</h2>
-<pre>
-    Le formulaire se trouve ici
-</pre>
+<form action="" method="post">
+    <label for="name">Nom</label>
+    <input type="text" name="name" id="name" required>
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" required>
+    <label for="message">Message</label>
+    <textarea name="message" id="message" rows="10" required></textarea>
+    <button type="submit">Envoyer</button>
+</form>
 <hr>
 <pre>
 Affichage du nombre de messages :
@@ -30,6 +36,9 @@ Plusieurs messages : Il y a X messages
     TEXTE
     DATE
 </pre>
+<?php
+var_dump($_POST);
+?>
 <hr>
 </body>
 </html>

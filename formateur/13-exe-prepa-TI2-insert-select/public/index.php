@@ -8,6 +8,7 @@
 # chargement des constantes de connexion en mode prod
 require_once "../config.php";
 # chargement du modèle (fonctions)
+require_once "../model/ArticleModel.php";
 
 
 # connexion à PDO
