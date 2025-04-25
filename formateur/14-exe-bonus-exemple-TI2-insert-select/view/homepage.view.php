@@ -18,7 +18,7 @@ if(isset($insert)){
     if($insert===true) {
         $thanks = "Message bien envoyé";
     }elseif($insert===false){
-        $error =" Pas inséré côté serveur";
+        $error ="Pas inséré côté serveur";
     }
 }
 
@@ -39,8 +39,8 @@ if(isset($insert)){
 </form>
 
 <?php
-// si on a pas de message (tableau vide)
-if(empty($messages)):
+// si on a pas de message $nbMessage === 0
+if(empty($nbMessage)):
 ?>
 
 <div class="nomessage">
@@ -50,24 +50,22 @@ if(empty($messages)):
 <?php
 else:
 // le tableau n'est pas vide
-
-
-    // on compte le nombre de message
-    $countMessage = count($messages) ;
+    ;
     // on va ajouter une variable pour le 's' de message
-    $pluriel = $countMessage>1? "s" : "";
+    $pluriel = $nbMessage>1? "s" : "";
 ?>
 
 <div class="messages">
-    <h2>Il y a <?=$countMessage?> message<?=$pluriel?></h2>
+    <h2>Il y a <?=$nbMessage?> message<?=$pluriel?></h2>
+    <nav><?=$pagination?></nav>
     <?php
     // ici affichage de la pagination
     // tant qu'on a des messages
     foreach ($messages as $message):
 
     ?>
-    <h4>Ecrit par <?=$message['name']?> le <?=$message['created_at']?></h4>
-    <p><?=$message['message']?></p>
+    <h4>Ecrit par <?=$message['name']?> le <?=dateFR($message['created_at'])?></h4>
+    <p><?=nl2br($message['message'])?></p>
     <hr>
     <?php
     endforeach;
@@ -80,13 +78,17 @@ else:
 endif;
 // ici affichage de la pagination
 
-var_dump($db,
+/*var_dump($db,
+    $offset,
+    $_GET,
+        $nbMessage,
         $_POST,
         $thanks,
         $error,
+
         $messages,
 
-);
+);*/
 ?>
 </body>
 </html>

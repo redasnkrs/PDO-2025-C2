@@ -14,7 +14,10 @@ function getAllMessagesOrderByDateDesc(PDO $connection): array
         $prepare->execute();
 
         // on renvoie le tableau (array) indexé contenant tous les résultats (peut être vide si pas de message).
-        return $prepare->fetchAll();
+        $result = $prepare->fetchAll();
+        // bonne pratique
+        $prepare->closeCursor();
+        return $result;
 
         // en cas d'erreur sql
     }catch (Exception $e){
@@ -58,9 +61,50 @@ function addMessage(PDO $con,string $name, string $email, string $telephone, str
 
 }
 
-// fonction qui prend le nombre total de `messages`
+/***************
+ * Pour le bonus
+ ***************/
 
+// fonction qui prend le nombre total de `messages`
+function countMessages(PDO $db): int
+{
+    try{
+        $request = $db->query("SELECT COUNT(*) as nb FROM messages ");
+        $nb = $request->fetch()['nb'];
+        $request->closeCursor();
+        return $nb;
+    }catch (Exception $e){
+        die($e->getMessage());
+    }
+}
 // fonction qui ne prend que les articles visibles sur cette page
+function getMessagesPagination(PDO $con, int $offset, int $limit): array
+{
+    // préparation de la requête
+    $prepare = $con->prepare("
+        SELECT * FROM `messages`
+        ORDER BY `messages`.`created_at` DESC
+        LIMIT ?,?
+        ");
+    $prepare->bindParam(1,$offset,PDO::PARAM_INT);
+    $prepare->bindParam(2,$limit,PDO::PARAM_INT);
+    // essai / erreur
+    try{
+        // exécution de la requête
+        $prepare->execute();
+
+        // on renvoie le tableau (array) indexé contenant tous les résultats (peut être vide si pas de message).
+        $result = $prepare->fetchAll();
+        // bonne pratique
+        $prepare->closeCursor();
+        return $result;
+
+        // en cas d'erreur sql
+    }catch (Exception $e){
+        // erreur de requête SQL
+        die($e->getMessage());
+    }
+}
 
 // création d'une fonction qui créer la pagination
 function pagination(int $nbtotalMessage, string $get="page", int $pageActu=1, int $perPage=5 ): string
@@ -124,4 +168,12 @@ function pagination(int $nbtotalMessage, string $get="page", int $pageActu=1, in
     $sortie .= "</p>";
     return $sortie;
 
+}
+
+function dateFR(string $datetime): string
+{
+    // temps unix en seconde de la date venant de la db
+    $stringtotime = strtotime($datetime);
+    // retour de la date au format
+    return date("d/m/Y \à H:m:s",$stringtotime);
 }
