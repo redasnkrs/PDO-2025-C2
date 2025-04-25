@@ -13,11 +13,11 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Base de données : `pdo_c2_prepa_ti2`
+-- Base de données : `pdo_ti2`
 --
-DROP DATABASE IF EXISTS `pdo_c2_prepa_ti2`;
-CREATE DATABASE IF NOT EXISTS `pdo_c2_prepa_ti2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `pdo_c2_prepa_ti2`;
+DROP DATABASE IF EXISTS `pdo_ti2`;
+CREATE DATABASE IF NOT EXISTS `pdo_ti2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `pdo_ti2`;
 
 -- --------------------------------------------------------
 
@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
                                           `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
                                           `email` varchar(120) COLLATE utf8mb4_general_ci NOT NULL,
                                           `message` varchar(600) COLLATE utf8mb4_general_ci NOT NULL,
+                                           `telephone` varchar(20) NOT NULL,
                                           `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

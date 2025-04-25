@@ -27,20 +27,30 @@ try{
     die("Code : {$e->getCode()} <br> Message : {$e->getMessage()}");
 }
 
-# ici notre code de traitement de la page
 
 // si on a envoyé le formulaire avec les bons champs
+if(isset(
+    $_POST['name'],
+    $_POST['email'],
+    $_POST['telephone'],
+    $_POST['message'],
 
+)) {
 
     // on va tenter l'insertion, car on a protégé addMessage()
+$insert = addMessage($db,
+    $_POST['name'],
+    $_POST['email'],
+    $_POST['telephone'],
+    $_POST['message'],
+);
 
-
-
+}
 
 
 
 // on veut récupérer tous les messages de la table `messages`
-//$messages = getAllMessagesOrderByDateDesc($db);
+$messages = getAllMessagesOrderByDateDesc($db);
 
 /*
  * Bonus mise en place de la pagination

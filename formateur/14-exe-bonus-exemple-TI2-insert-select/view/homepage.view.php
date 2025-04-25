@@ -12,32 +12,35 @@
 <h1>Accueil</h1>
 <h2>Laissez-nous un message</h2>
 <?php
-// si on a bien envoyé un message
-if(isset($thanks)):
-?>
-    <h4 class="thanks"><?=$thanks?></h4>
-<?php
-endif;
+$error = "";
+$thanks ="";
+if(isset($insert)){
+    if($insert===true) {
+        $thanks = "Message bien envoyé";
+    }elseif($insert===false){
+        $error =" Pas inséré côté serveur";
+    }
+}
 
-
-// si on a une erreur lors de l'insertion
-if(isset($error)):
 ?>
-<h4 class="error"><?=$error?></h4>
-<?php
-    endif; ?>
+<h3 class="merci"><?=$thanks?></h3>
+<h3 class="erreur"><?=$error?></h3>
+
 <form action="" method="post">
     <label for="name">Nom</label>
-    <input type="text" name="name" id="name" required>
+    <input type="text" name="name" id="name">
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" required>
-    <label for="message">Message</label>
-    <textarea name="message" id="message" rows="10" required></textarea>
+    <input type="email" name="email" id="email">
+    <label for="telephone">Telephone</label>
+    <input type="text" name="telephone" id="telephone">
+    <label for="message">Messages</label>
+    <textarea name="message" id="message" rows="10"></textarea>
     <button type="submit">Envoyer</button>
 </form>
 
 <?php
 // si on a pas de message (tableau vide)
+if(empty($messages)):
 ?>
 
 <div class="nomessage">
@@ -45,34 +48,45 @@ if(isset($error)):
     <p>Veuillez consulter cette page plus tard</p>
 </div>
 <?php
+else:
 // le tableau n'est pas vide
 
-    // on va ajouter une variable pour le 's' de message
-    // si nécessaire pour le h2 suivant
 
+    // on compte le nombre de message
+    $countMessage = count($messages) ;
+    // on va ajouter une variable pour le 's' de message
+    $pluriel = $countMessage>1? "s" : "";
 ?>
 
 <div class="messages">
-    <h2>Il y a x message(s)</h2>
+    <h2>Il y a <?=$countMessage?> message<?=$pluriel?></h2>
     <?php
     // ici affichage de la pagination
     // tant qu'on a des messages
+    foreach ($messages as $message):
 
     ?>
-
+    <h4>Ecrit par <?=$message['name']?> le <?=$message['created_at']?></h4>
+    <p><?=$message['message']?></p>
     <hr>
     <?php
-
+    endforeach;
 
     ?>
 
 </div>
 <?php
 // fin du if
-
+endif;
 // ici affichage de la pagination
 
+var_dump($db,
+        $_POST,
+        $thanks,
+        $error,
+        $messages,
 
+);
 ?>
 </body>
 </html>
